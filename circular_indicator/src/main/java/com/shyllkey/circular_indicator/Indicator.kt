@@ -135,10 +135,7 @@ class Indicator : View {
             mDividersCount = 100 / dividerStep
             mDividerStepAngle = sweepAngle / mDividersCount
         }
-        mPointerAngle = if (mPointerAngle > 39 && mPointerAngle < 45) 38.0 else mPointerAngle
-        mPointerAngle = if (mPointerAngle > 139 && mPointerAngle < 145) 138.0 else mPointerAngle
-        mPointerAngle += 270
-        mPointerAngle = if (mPointerAngle < 270) 270.0 else if (mPointerAngle > 450) 450.0 else mPointerAngle
+        resetPointer()
         mRotation = 90f
         mPoint1 = startAngle * 0.20f
         mPoint2 = startAngle + mPoint1 + 10
@@ -148,12 +145,22 @@ class Indicator : View {
         init()
     }
 
+    private fun resetPointer() {
+        mPointerAngle = if (mPointerAngle > 39 && mPointerAngle < 45) 38.0 else mPointerAngle
+        mPointerAngle = if (mPointerAngle > 139 && mPointerAngle < 145) 138.0 else mPointerAngle
+        mPointerAngle += 270
+        mPointerAngle =
+            if (mPointerAngle < 270) 270.0 else if (mPointerAngle > 450) 450.0 else mPointerAngle
+    }
+
     private fun setShowPointer(value: Boolean) {
         mShowPointer = value
     }
 
-    private fun setPositionValue(value: Int) {
+    fun setPositionValue(value: Int) {
         mPointerAngle = value.toDouble()
+        invalidate()
+        resetPointer()
     }
 
     private fun setPointerWidth(color: Int) {
